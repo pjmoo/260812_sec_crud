@@ -16,9 +16,12 @@ import java.util.UUID;
 @Getter
 public class UserAccountEntity extends BaseEntity {
     // id, createdAt, updatedAt
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
-    private boolean isActive;
+    @Column(nullable = false)
+    private String password;
+    @Builder.Default
+    private boolean isActive = true;
 
     @Builder.Default // 빌더 사용 시 기본값 (빈 해시셋)
     @ElementCollection(fetch = FetchType.EAGER) // 조인 시 미리 로딩 (N+1)
