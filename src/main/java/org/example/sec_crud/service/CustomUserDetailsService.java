@@ -24,8 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public @NonNull UserDetails loadUserByUsername(
             @NonNull String username) throws UsernameNotFoundException {
+        // 1. db에 없는 사용자를 throw로 걸러내기
         UserAccountEntity userAccount = repository.findByUsername(username)
                 .orElseThrow(NoUserException::new);
+        // 2. password 등 인증 정보를 주면 그 인증정보가 제대로 되어 있는지를 Spring Security가 알아서 판단
+        // https://github.com/aibe-7th/04_server_sec2/blob/main/docs/04-userdetails.md
         return CustomUserDetails.builder()
                 .id(userAccount.getId())
                 .username(userAccount.getUsername())

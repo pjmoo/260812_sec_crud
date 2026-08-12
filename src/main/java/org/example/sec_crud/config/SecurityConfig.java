@@ -41,7 +41,11 @@ public class SecurityConfig {
                 .loginPage("/user/login").permitAll()
                 .loginProcessingUrl("/user/login").permitAll()
                 // 나머지는 기본값으로
-        );
+        ).logout(logout -> logout
+                .logoutUrl("/user/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll());
         return http.build();
     }
 }

@@ -11,5 +11,19 @@
     <blockquote>실은 전혀 간단하지 않음...</blockquote>
     <a href="/user/join">회원가입</a>
     <a href="/user/login">로그인</a>
+    <form th:action="@{/user/logout}" method="post">
+        <button>로그아웃</button>
+    </form>
+    <section th:if="${user}">
+        <p>[[${user.id}]]</p>
+        <p>[[${user.uuid}]]</p>
+        <p>[[${user.username}]]</p>
+        <p>[[${user.password}]]</p>
+        <p>[[${user.authorities}]]</p>
+        <p>[[${user.isActive}]]</p>
+    </section>
+    <section th:unless="${user}">
+        <p>로그인 상태가 아닙니다</p>
+    </section>
 </body>
 </html>
