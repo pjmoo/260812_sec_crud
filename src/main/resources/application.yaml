@@ -8,3 +8,6 @@ spring:
   config:
     activate:
       on-profile: dev
+    import: optional:file:.env.dev[.properties]
+  thymeleaf:
+    cache: false
