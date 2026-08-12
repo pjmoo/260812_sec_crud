@@ -40,11 +40,13 @@ public class SecurityConfig {
         ).formLogin(form -> form
                 .loginPage("/user/login").permitAll()
                 .loginProcessingUrl("/user/login").permitAll()
+                .defaultSuccessUrl("/", true)
                 // 나머지는 기본값으로
         ).logout(logout -> logout
                 .logoutUrl("/user/logout")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/")
                 .permitAll());
         return http.build();
     }
