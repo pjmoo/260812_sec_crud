@@ -33,6 +33,7 @@ public class UserAccountEntity extends BaseEntity {
     private Set<UserAccountRole> roles = new HashSet<>();
 
     // uuid
+    @Builder.Default
     @Column(nullable = false, unique = true, updatable = false)
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
 }

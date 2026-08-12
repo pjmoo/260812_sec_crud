@@ -36,7 +36,7 @@ public class UserAccountController {
         if (bindingResult.hasErrors()) {
             return "user/join";
         }
-//        userAccountService.join(form);
+        userAccountService.join(form);
         return "redirect:/user/login";
     }
 }
