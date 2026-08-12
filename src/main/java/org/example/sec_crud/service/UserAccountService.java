@@ -22,8 +22,9 @@ public class UserAccountService {
     public void join(UserJoinFormDTO form) {
         if (repository.existsByUsername(form.username())) {
             throw new DuplicateUsernameException(form.username());
-        }
+        } // 어차피 unique로 인해서 에러가 나기는 하는데 사전 작업을 해주면 좋으니까
         String encoded = passwordEncoder.encode(form.password());
+        // 비밀번호를 암호화(해싱)해서 저장
         UserAccountEntity entity = UserAccountEntity.builder()
                 .username(form.username())
                 .password(encoded)

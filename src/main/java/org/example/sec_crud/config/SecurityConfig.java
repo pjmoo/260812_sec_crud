@@ -11,6 +11,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        // bcrypt
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/error/**").permitAll()
@@ -18,11 +24,5 @@ public class SecurityConfig {
                 .anyRequest().authenticated() // 모든 요청에 대해서 인증 없이 접근 불허
         );
         return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        // bcrypt
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
