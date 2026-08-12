@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>간단한 유저 + 게시판 시스템</title>
+</head>
+<body>
+<section>
+    <form th:action="@{/user/login}" th:object="${form}" method="post">
+        <label>
+            유저이름 :
+            <input th:field="*{username}" type="text" placeholder="username">
+        </label><br>
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+        <label>
+            비밀번호 :
+            <input th:field="*{password}" type="password" placeholder="password">
+        </label>
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        <button>로그인</button>
+    </form>
+</section>
+</body>
+</html>

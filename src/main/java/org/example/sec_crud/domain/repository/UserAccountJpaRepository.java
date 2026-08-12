@@ -5,6 +5,10 @@ import jakarta.validation.constraints.Size;
 import org.example.sec_crud.domain.entity.UserAccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface UserAccountJpaRepository extends JpaRepository<UserAccountEntity, Long> {
     boolean existsByUsername(String username);
+
+    Optional<UserAccountEntity> findByUsername(String username);
 }

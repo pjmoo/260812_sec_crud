@@ -2,6 +2,7 @@ package org.example.sec_crud.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.sec_crud.domain.dto.UserJoinFormDTO;
+import org.example.sec_crud.domain.dto.UserLoginFormDTO;
 import org.example.sec_crud.service.UserAccountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,8 @@ public class UserAccountController {
     private final UserAccountService userAccountService;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("form", new UserLoginFormDTO("", ""));
         return "user/login";
     }
 
