@@ -11,3 +11,7 @@ spring:
     import: optional:file:.env.dev[.properties]
   thymeleaf:
     cache: false
+  security:
+    user:
+      name: myuser
+      password: mypassword
