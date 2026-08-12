@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class BoardEntity extends BaseEntity {
     // id, created_at, updated_at
     private String title;

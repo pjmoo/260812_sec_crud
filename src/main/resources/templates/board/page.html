@@ -9,11 +9,31 @@
 </head>
 <body>
 <section>
+    <h1>게시물 목록</h1>
+    <section>
+        <div th:each="board : ${list}">
+            <!--            <p>[[${board}]]</p>-->
+            <p>[[${board.title}]]</p>
+            <p>[[${board.content}]]</p>
+            <p>[[${board.writer.username}]]</p>
+            <a th:href="@{/board/{id}(id=${board.id})}">수정하기</a>
+        </div>
+    </section>
+</section>
+<section th:if="${board.title.isEmpty()}">
     <h1>게시물 작성</h1>
     <form th:action="@{/board}" method="post" th:object="${board}">
         <input type="text" th:field="*{title}">
         <input type="text" th:field="*{content}">
         <button>작성</button>
+    </form>
+</section>
+<section th:unless="${board.title.isEmpty()}">
+    <h1>게시물 수정</h1>
+    <form th:action="@{/board/{id}(id=${board.id})}" method="post" th:object="${board}">
+        <input type="text" th:field="*{title}">
+        <input type="text" th:field="*{content}">
+        <button>수정</button>
     </form>
 </section>
 </body>
