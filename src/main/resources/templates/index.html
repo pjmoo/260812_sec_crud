@@ -21,6 +21,9 @@
         <p>[[${user.password}]]</p>
         <p>[[${user.authorities}]]</p>
         <p>[[${user.isActive}]]</p>
+        <form th:action="@{/user/withdraw}" method="post">
+            <button>탈퇴</button>
+        </form>
     </section>
     <section th:unless="${user}">
         <p>로그인 상태가 아닙니다</p>

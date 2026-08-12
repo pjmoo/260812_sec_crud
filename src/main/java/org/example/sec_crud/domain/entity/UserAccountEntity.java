@@ -36,4 +36,8 @@ public class UserAccountEntity extends BaseEntity {
     @Builder.Default
     @Column(nullable = false, unique = true, updatable = false)
     private UUID uuid = UUID.randomUUID();
+
+    public void withdraw() {
+        isActive = false;
+    }
 }

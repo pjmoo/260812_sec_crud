@@ -1,9 +1,11 @@
 package org.example.sec_crud.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.sec_crud.domain.dto.UserJoinFormDTO;
 import org.example.sec_crud.domain.dto.UserLoginFormDTO;
 import org.example.sec_crud.service.UserAccountService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserAccountController {
     private final UserAccountService userAccountService;
+
+    @PostMapping("/withdraw")
+    public String withdraw(
+            @AuthenticationPrincipal(expression = "id") Long id,
+            HttpSession session) {
+        System.out.println("id = " + id);
+        userAccountService.withdraw(id);
+        session.invalidate();
+        return "redirect:/";
+    }
 
     @GetMapping("/login")
     public String login(Model model) {

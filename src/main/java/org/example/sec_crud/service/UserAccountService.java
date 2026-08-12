@@ -33,6 +33,12 @@ public class UserAccountService {
         repository.save(entity);
     }
 
+    @Transactional
+    public void withdraw(Long id) {
+        UserAccountEntity entity = repository.findById(id).orElseThrow();
+        entity.withdraw();
+    }
+
     @RequiredArgsConstructor
     @ResponseStatus(HttpStatus.CONFLICT)
     public static class DuplicateUsernameException extends RuntimeException {
