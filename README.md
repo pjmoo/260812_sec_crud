@@ -1,5 +1,58 @@
 # 🔐 Spring Security & JPA CRUD 실습 프로젝트
 
+<!-- workspace-readme-learning:start -->
+## 파일과 연결한 학습 안내
+
+아래 설명은 이 폴더의 실제 소스와 빌드 설정을 기준으로 정리했습니다. 기존 소개의 기능 설명은 연결된 파일과 함께 확인할 수 있습니다.
+
+### 주요 파일과 역할
+
+| 파일 | 역할과 읽을 내용 |
+| --- | --- |
+| [build.gradle](<build.gradle>) | Gradle 플러그인·JDK·의존성과 빌드 작업 설정 |
+| [src/main/java/org/example/sec_crud/controller/BoardController.java](<src/main/java/org/example/sec_crud/controller/BoardController.java>) | 요청 매핑·입력 바인딩과 응답 처리 — `page`, `detail`, `write` |
+| [src/main/java/org/example/sec_crud/controller/MainController.java](<src/main/java/org/example/sec_crud/controller/MainController.java>) | 요청 매핑·입력 바인딩과 응답 처리 — `index` |
+| [src/main/java/org/example/sec_crud/controller/UserAccountController.java](<src/main/java/org/example/sec_crud/controller/UserAccountController.java>) | 요청 매핑·입력 바인딩과 응답 처리 — `withdraw`, `login`, `join` |
+| [src/main/java/org/example/sec_crud/SecCrudApplication.java](<src/main/java/org/example/sec_crud/SecCrudApplication.java>) | Spring Boot 애플리케이션 진입점 — `main` |
+| [src/main/resources/templates/index.html](<src/main/resources/templates/index.html>) | 간단한 유저 + 게시판 시스템 화면 |
+| [src/main/java/org/example/sec_crud/domain/entity/BoardService.java](<src/main/java/org/example/sec_crud/domain/entity/BoardService.java>) | 업무 처리와 외부 의존성 호출 — `write`, `findAll`, `findById` |
+| [src/main/java/org/example/sec_crud/domain/repository/BoardJpaRepository.java](<src/main/java/org/example/sec_crud/domain/repository/BoardJpaRepository.java>) | Spring Data의 엔티티 저장·조회 계약 |
+| [src/main/java/org/example/sec_crud/domain/repository/UserAccountJpaRepository.java](<src/main/java/org/example/sec_crud/domain/repository/UserAccountJpaRepository.java>) | Spring Data의 엔티티 저장·조회 계약 |
+| [src/main/java/org/example/sec_crud/service/CustomUserDetailsService.java](<src/main/java/org/example/sec_crud/service/CustomUserDetailsService.java>) | 업무 처리와 외부 의존성 호출 |
+| [src/main/java/org/example/sec_crud/service/UserAccountService.java](<src/main/java/org/example/sec_crud/service/UserAccountService.java>) | 업무 처리와 외부 의존성 호출 — `join`, `withdraw` |
+| [HELP.md](<HELP.md>) | 설계·학습·운영 내용을 설명하는 문서 |
+| [settings.gradle](<settings.gradle>) | 프로젝트 구성 자료 |
+| [src/main/java/org/example/sec_crud/config/SecurityConfig.java](<src/main/java/org/example/sec_crud/config/SecurityConfig.java>) | 빈 등록 또는 외부 설정 구성 — `passwordEncoder`, `filterChain` |
+| [src/main/java/org/example/sec_crud/domain/dto/BoardFormDTO.java](<src/main/java/org/example/sec_crud/domain/dto/BoardFormDTO.java>) | 입력·응답 데이터의 구조 — `BoardFormDTO` |
+| [src/main/java/org/example/sec_crud/domain/dto/CustomUserDetails.java](<src/main/java/org/example/sec_crud/domain/dto/CustomUserDetails.java>) | Java 타입과 동작 정의 — `isEnabled` |
+| [src/main/java/org/example/sec_crud/domain/dto/UserJoinFormDTO.java](<src/main/java/org/example/sec_crud/domain/dto/UserJoinFormDTO.java>) | 입력·응답 데이터의 구조 — `UserJoinFormDTO` |
+| [src/main/java/org/example/sec_crud/domain/dto/UserLoginFormDTO.java](<src/main/java/org/example/sec_crud/domain/dto/UserLoginFormDTO.java>) | 입력·응답 데이터의 구조 — `UserLoginFormDTO` |
+
+### 실행과 설정 확인
+
+- [build.gradle](<build.gradle>)의 플러그인과 의존성을 기준으로 구성합니다. 선언된 Java toolchain은 17입니다.
+- Windows에서는 저장소 루트에서 `.\gradlew.bat bootRun`을 사용합니다.
+- 환경 설정: [src/main/resources/application-db.yaml](<src/main/resources/application-db.yaml>), [src/main/resources/application.yaml](<src/main/resources/application.yaml>).
+- 코드·설정에서 참조하는 환경 변수 이름: `DB_HOST`, `DB_NAME`, `DB_PASSWORD`, `DB_PORT`, `DB_USERNAME`. 기본값과 필수 여부는 각 참조 위치에서 확인합니다.
+
+### 관련 PDF와 보충 설명
+
+- [7/3 강의](<../260629_ex/새 폴더/7-3/README.md>): 쿠키·세션·필터의 상태 식별과 요청 제어를 연결합니다.
+- [7/23 강의](<../260629_ex/새 폴더/7-23/README.md>): 엔티티·영속성 컨텍스트·연관관계와 N+1을 연결합니다.
+
+이 링크는 구현을 이해하기 위한 관련 기초 자료입니다. 해당 강의가 이 저장소의 모든 기능이나 이후 버전의 API를 설명한다는 뜻은 아닙니다.
+
+### 읽는 순서와 복습
+
+- 로그인 상태 생성 → 세션 식별 → 공통 필터 → 접근 허용·거부를 추적합니다. 로그인 성공·실패·만료·로그아웃과 권한 없는 접근을 구분합니다.
+- Entity와 Repository에서 시작해 Service의 트랜잭션 및 연관 객체 접근을 읽습니다. 변경 감지 시점, 지연 로딩과 SQL 횟수, DTO 변환의 경계를 확인합니다.
+
+인증된 사용자와 요청 대상의 소유권 검사는 별개입니다. 토큰 유효성 확인 뒤 실제 권한을 검사하는 코드를 찾아 로그인·만료·접근 거부 경로를 비교합니다.
+
+테스트 소스가 포함되어 있습니다. 이 문서 수정 작업에서는 애플리케이션·DB·외부 API 테스트를 실행하지 않았으므로 실행 결과를 보장하는 기록은 아닙니다.
+
+<!-- workspace-readme-learning:end -->
+
 본 프로젝트는 **Spring Boot 3**, **Spring Security**, 그리고 **Spring Data JPA**를 활용하여 유저 회원가입/로그인/탈퇴 및 게시판(Board) CRUD 기능을 구현한 실습 프로젝트입니다.
 
 ---
@@ -70,3 +123,36 @@
 3. **접근 가능 경로 테스트**:
    - 비인증 접근 허용 경로: `/`, `/user/join`, `/user/login`
    - 인증 필요 경로: `/board`, `/user/withdraw` (비로그인 상태로 진입 시 로그인 페이지로 리다이렉트됩니다.)
+
+<!-- pdf-til-supplement:start -->
+## TIL 부연 설명 — PDF와 연결하기
+
+기존 실습 내용을 이해하기 위한 PDF 기반 부연 설명이다. 아래 예시는 개념을 설명하기 위한 것이며, 이 프로젝트에서 실행해 관찰한 결과와는 구분한다. 페이지 번호는 표지를 포함한 PDF 순서다.
+
+함께 읽을 파일: [src/main/java/org/example/sec_crud/controller/BoardController.java](<src/main/java/org/example/sec_crud/controller/BoardController.java>) · [src/main/java/org/example/sec_crud/controller/MainController.java](<src/main/java/org/example/sec_crud/controller/MainController.java>) · [src/main/java/org/example/sec_crud/controller/UserAccountController.java](<src/main/java/org/example/sec_crud/controller/UserAccountController.java>)
+
+### 회원가입 저장과 로그인 검증 연결하기
+
+회원가입은 입력 검증과 중복 확인 후 비밀번호를 해시해 계정을 저장한다. 로그인은 저장된 계정과 비밀번호 검증 결과를 인증 객체로 연결한다. 폼 입력 DTO, 계정 엔티티, 인증 주체 객체는 역할이 달라 필요한 정보만 전달하는 것이 중요하다.
+
+**예시로 이해하기:** 같은 비밀번호를 두 번 encode해 문자열이 같은지 비교하는 방식은 솔트가 있는 해시에서 맞지 않는다. matches로 평문 입력과 저장된 해시를 검증한다. 사전 중복 조회를 통과한 두 가입 요청이 동시에 저장될 수 있으므로 DB 유일성 제약도 살펴본다.
+
+근거: 412-1 회원 관리와 DB 기반 인증 구현하기 — [22쪽](<../260629_ex/새 폴더/8-12/412-1_회원_관리와_DB_기반_인증_구현하기.pdf#page=22>) · [25쪽](<../260629_ex/새 폴더/8-12/412-1_회원_관리와_DB_기반_인증_구현하기.pdf#page=25>) · [33쪽](<../260629_ex/새 폴더/8-12/412-1_회원_관리와_DB_기반_인증_구현하기.pdf#page=33>) · [36쪽](<../260629_ex/새 폴더/8-12/412-1_회원_관리와_DB_기반_인증_구현하기.pdf#page=36>) · [45쪽](<../260629_ex/새 폴더/8-12/412-1_회원_관리와_DB_기반_인증_구현하기.pdf#page=45>)
+
+### 역할 권한과 작성자 권한을 함께 검사하기
+
+역할 기반 접근 제어는 회원·관리자 같은 사용자 범주의 권한을 정한다. 작성자 검사는 특정 게시글과 현재 사용자의 관계를 확인한다. “회원이면 수정 API 호출 가능”이라는 경로 규칙만으로 다른 회원의 글 수정을 막을 수는 없다.
+
+**예시로 이해하기:** 수정할 글의 ID는 요청에서 받고 사용자 ID는 검증된 인증 주체에서 얻는다. 서버가 읽은 글의 작성자와 비교한 뒤 수정한다. 화면 버튼 표시, API 접근 규칙, 서비스의 소유권 검사가 각각 맡는 범위를 나누어 기록한다.
+
+근거: 412-2 역할 기반 인가와 작성자 권한 검증 — [7쪽](<../260629_ex/새 폴더/8-12/412-2_역할_기반_인가와_작성자_권한_검증.pdf#page=7>) · [18쪽](<../260629_ex/새 폴더/8-12/412-2_역할_기반_인가와_작성자_권한_검증.pdf#page=18>) · [40쪽](<../260629_ex/새 폴더/8-12/412-2_역할_기반_인가와_작성자_권한_검증.pdf#page=40>) · [41쪽](<../260629_ex/새 폴더/8-12/412-2_역할_기반_인가와_작성자_권한_검증.pdf#page=41>) · [44쪽](<../260629_ex/새 폴더/8-12/412-2_역할_기반_인가와_작성자_권한_검증.pdf#page=44>)
+
+### 연관관계의 주인과 N+1의 발생 시점
+
+양방향 관계에서는 외래키 변경을 반영하는 연관관계의 주인이 중요하다. 반대쪽 컬렉션에만 추가하면 기대한 FK 변경이 저장되지 않을 수 있다. LAZY는 필요한 시점까지 조회를 미루지만 반복문에서 연관 객체를 하나씩 읽으면 N+1 쿼리가 생길 수 있다.
+
+**예시로 이해하기:** 회원 목록 1회 조회 후 각 회원의 팀을 읽으며 추가 SQL이 발생하는지 확인한다. fetch join이나 조회 전용 DTO로 필요한 데이터를 가져오는 방법을 비교한다. 컬렉션 fetch join과 페이징을 함께 쓰면 행 수가 늘어나므로 단순히 한 번의 쿼리로 줄이는 것만 목표로 삼지 않는다.
+
+근거: 323-2 JPA 연관관계 매핑과 N1 문제 — [9쪽](<../260629_ex/새 폴더/7-23/323-2_JPA_연관관계_매핑과_N1_문제.pdf#page=9>) · [11쪽](<../260629_ex/새 폴더/7-23/323-2_JPA_연관관계_매핑과_N1_문제.pdf#page=11>) · [19쪽](<../260629_ex/새 폴더/7-23/323-2_JPA_연관관계_매핑과_N1_문제.pdf#page=19>) · [21쪽](<../260629_ex/새 폴더/7-23/323-2_JPA_연관관계_매핑과_N1_문제.pdf#page=21>) · [26쪽](<../260629_ex/새 폴더/7-23/323-2_JPA_연관관계_매핑과_N1_문제.pdf#page=26>) · [28쪽](<../260629_ex/새 폴더/7-23/323-2_JPA_연관관계_매핑과_N1_문제.pdf#page=28>)
+
+<!-- pdf-til-supplement:end -->
